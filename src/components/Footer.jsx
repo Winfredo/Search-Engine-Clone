@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = ({dark}) => {
   return (
-    <div>
-      <h1>Footer</h1>
+    <div className={`footer-container ${dark ? 'footer-dark' : 'light'}`}>
+      <h1>2025 &copy; Google Clone</h1>
     </div>
   )
 }
