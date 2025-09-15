@@ -31,8 +31,9 @@
   height: 7vh;
   padding: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+
   text-align: center;
 }
 
@@ -98,7 +99,7 @@ input:focus {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
 }
 .search-btn {
-  width: 10%;
+  width: 6%;
   height: 40px;
   border-radius: 20px;
   border: none;
@@ -132,3 +133,19 @@ input:focus {
   }
 }
 
+@media (max-width: 600px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .form button{
+    width: 30%;
+  }
+
+  .form input{
+    width: 80%;
+  }
+}
