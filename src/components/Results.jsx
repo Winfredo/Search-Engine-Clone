@@ -32,7 +32,8 @@ const Results = ({ dark }) => {
           ? results.map((item, index) => (
               <div key={index} className="result-item">
                 
-                <h3>{item.title}</h3> <p>{item.snippet}</p>{" "}
+                <h3>{item.title}</h3> <p>{item.snippet}</p>
+                <h3>{item.description}</h3> <p>{item.snippet}</p>
               </div>
             ))
           : !isLoading && <p>No results found</p>}
