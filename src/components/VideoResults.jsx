@@ -1,5 +1,5 @@
-import React from 'react'
-import {useContext} from "../contexts/ResultsContextProvider"
+import React,{useContext} from 'react'
+import { ResultsContext } from '../contexts/ResultsContextProvider';
 
 const VideoResults = () => {
   const { isLoading, results } = useContext(ResultsContext);

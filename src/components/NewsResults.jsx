@@ -1,5 +1,6 @@
-import React from 'react'
-import {useContext} from "../contexts/ResultsContextProvider"
+import React,{useContext} from 'react'
+import { ResultsContext } from '../contexts/ResultsContextProvider';
+
 const NewsResults = () => {
   const { isLoading, results } = useContext(ResultsContext);
   if (isLoading) return <h2>Loading News...</h2>;
