@@ -24,7 +24,7 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Results dark={darkTheme} />}>
-            <Route index element={<SearchResults />} />
+            <Route index element={<SearchResults dark={darkTheme} />} />
             <Route path="/images" element={<ImageResults />} />
             <Route path="/videos" element={<VideoResults />} />
             </Route>
