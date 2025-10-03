@@ -25,8 +25,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Results dark={darkTheme} />}>
             <Route index element={<SearchResults dark={darkTheme} />} />
-            <Route path="/images" element={<ImageResults />} />
-            <Route path="/videos" element={<VideoResults />} />
+            <Route path="/images" element={<ImageResults dark={darkTheme} />} />
+            <Route path="/videos" element={<VideoResults  />} />
             </Route>
             {/* <Route path="*" element={<h2>404 Not Found</h2>} /> */}
           </Routes>

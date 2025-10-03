@@ -1,6 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { ResultsContext } from "../contexts/ResultsContextProvider";
-const ImageResults = () => {
+const ImageResults = ({dark}) => {
   const { isLoading, results } = useContext(ResultsContext);
 
   {
@@ -10,11 +10,11 @@ const ImageResults = () => {
   <div className="image-results">
   {results.length > 0 ? (
     results.map((img, i) => (
-      <div key={i} className="image-card">
+      <div key={i}  className={`image-card ${dark ? "image-card-dark" : "image-card-light"}`}>
         <img src={img.imageUrl} alt={img.title || "image"} className="image-thumb" />
         <div className="image-info">
-          <h4 className="image-title">{img.title}</h4>
-          <p className="image-source">{img.source}</p>
+          <h4 className={`image-title ${dark ? "image-title-dark" : "image-title-light"}`}>{img.title}</h4>
+          <p className={dark ? "image-source-dark" : "image-source"}>{img.source}</p>
         </div>
       </div>
     ))

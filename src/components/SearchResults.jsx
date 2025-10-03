@@ -3,7 +3,7 @@ import { ResultsContext } from '../contexts/ResultsContextProvider';
 import {useOutletContext} from 'react-router-dom';
 
 const SearchResults = ({ dark }) => {
-  const { isLoading,searchTerm ,results } = useContext(ResultsContext);
+  const { isLoading ,results } = useContext(ResultsContext);
   const { hasSearched } = useOutletContext();
 
   {
@@ -14,7 +14,7 @@ const SearchResults = ({ dark }) => {
    <div className="results-list">
   {results.length > 0 ? (
     results.map((item, index) => (
-      <div key={index} className={dark ? "result-dark" : "result-item"}>
+      <div key={index} className={`result-item ${dark ? "result-item-dark" : "result-item-light"}`}>
         <h3 className="result-title">{item.title}</h3>
         {item.snippet && <p className="result-snippet">{item.snippet}</p>}
         {item.description && (
