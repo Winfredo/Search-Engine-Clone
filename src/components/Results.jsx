@@ -2,19 +2,19 @@ import React, { useContext } from "react";
 import "../App.css";
 import { ResultsContext } from "../contexts/ResultsContextProvider";
 const Results = ({ dark }) => {
-  const { isLoading, getResults, searchTerm, setSearchTerm, results } =
+  const { isLoading, searchTerm, getSearchResults, setSearchTerm, results } =
     useContext(ResultsContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      getResults(searchTerm);
+      getSearchResults(searchTerm);
     }
   };
   return (
     <div className="results-container">
       
-      {isLoading && <h2>Loading Items...</h2>} <h1>GOOGLE</h1>
+       <h1>GOOGLE</h1>
       <form className="form" onSubmit={handleSubmit}>
         
         <input
@@ -27,7 +27,7 @@ const Results = ({ dark }) => {
         <button className="search-btn">Search</button>
       </form>
       <div className="results-list">
-        
+        {isLoading && <h2>Loading Items...</h2>}
         {Array.isArray(results) && results.length > 0
           ? results.map((item, index) => (
               <div key={index} className="result-item">

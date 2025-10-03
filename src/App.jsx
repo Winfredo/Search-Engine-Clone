@@ -20,7 +20,7 @@ const App = () => {
       </ResultsContextProvider>
       <Footer dark={darkTheme} />
       </div>
-    </div>
+    </div> 
   )
 }
 

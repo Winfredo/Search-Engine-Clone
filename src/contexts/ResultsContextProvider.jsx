@@ -9,11 +9,11 @@ const ResultsContextProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const API_KEY = import.meta.env.VITE_SERPER_API_KEY;
 
-  const getResults = async (query) => {
+  // 🔹 Universal fetch function
+  const fetchResults = async (endpoint, query, parser) => {
     setIsLoading(true);
     try {
-      console.log("API KEY:", API_KEY);
-      const res = await fetch(`${baseUrl}search`, {
+      const res = await fetch(`${baseUrl}${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,13 +21,12 @@ const ResultsContextProvider = ({ children }) => {
         },
         body: JSON.stringify({ q: query }),
       });
-      const data = await res.json();
-      console.log("API Response:", data);
 
-      setResults([
-        ...(data.knowledgeGraph ? [data.knowledgeGraph] : []),
-        ...(data.organic || []),
-      ]);
+      const data = await res.json();
+      console.log(`${endpoint} API Response:`, data);
+
+      // Use parser function to extract correct results
+      setResults(parser(data));
     } catch (err) {
       console.error("Fetch error:", err);
     } finally {
@@ -35,14 +34,33 @@ const ResultsContextProvider = ({ children }) => {
     }
   };
 
+  // 🔹 Specialized fetchers (using parser functions)
+  const getSearchResults = (query) =>
+    fetchResults("search", query, (data) => [
+      ...(data.knowledgeGraph ? [data.knowledgeGraph] : []),
+      ...(data.organic || []),
+    ]);
+
+  const getImageResults = (query) =>
+    fetchResults("images", query, (data) => data.images || []);
+
+  const getVideoResults = (query) =>
+    fetchResults("videos", query, (data) => data.videos || []);
+
+  const getNewsResults = (query) =>
+    fetchResults("news", query, (data) => data.news || []);
+
   return (
     <ResultsContext.Provider
       value={{
         results,
-        getResults,
         isLoading,
-        setSearchTerm,
         searchTerm,
+        setSearchTerm,
+        getSearchResults,
+        getImageResults,
+        getVideoResults,
+        getNewsResults,
       }}
     >
       {children}
