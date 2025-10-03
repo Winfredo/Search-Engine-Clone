@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useCallback } from "react";
 
 const ResultsContext = createContext();
 const baseUrl = "https://google.serper.dev/";
@@ -9,46 +9,52 @@ const ResultsContextProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const API_KEY = import.meta.env.VITE_SERPER_API_KEY;
 
-  // 🔹 Universal fetch function
-  const fetchResults = async (endpoint, query, parser) => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${baseUrl}${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": API_KEY,
-        },
-        body: JSON.stringify({ q: query }),
-      });
+const fetchResults = useCallback(async (endpoint, query, parser) => {
+  setIsLoading(true);
+  try {
+    const res = await fetch(`${baseUrl}${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": API_KEY,
+      },
+      body: JSON.stringify({ q: query }),
+    });
 
-      const data = await res.json();
-      console.log(`${endpoint} API Response:`, data);
+    const data = await res.json();
+    console.log(`${endpoint} API Response:`, data);
 
-      // Use parser function to extract correct results
-      setResults(parser(data));
-    } catch (err) {
-      console.error("Fetch error:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setResults(parser(data));
+  } catch (err) {
+    console.error("Fetch error:", err);
+  } finally {
+    setIsLoading(false);
+  }
+}, [API_KEY]);
 
-  // 🔹 Specialized fetchers (using parser functions)
-  const getSearchResults = (query) =>
+const getSearchResults = useCallback(
+  (query) =>
     fetchResults("search", query, (data) => [
       ...(data.knowledgeGraph ? [data.knowledgeGraph] : []),
       ...(data.organic || []),
-    ]);
+    ]),
+  [fetchResults]
+);
 
-  const getImageResults = (query) =>
-    fetchResults("images", query, (data) => data.images || []);
+const getImageResults = useCallback(
+  (query) => fetchResults("images", query, (data) => data.images || []),
+  [fetchResults]
+);
 
-  const getVideoResults = (query) =>
-    fetchResults("videos", query, (data) => data.videos || []);
+const getVideoResults = useCallback(
+  (query) => fetchResults("videos", query, (data) => data.videos || []),
+  [fetchResults]
+);
 
-  const getNewsResults = (query) =>
-    fetchResults("news", query, (data) => data.news || []);
+const getNewsResults = useCallback(
+  (query) => fetchResults("news", query, (data) => data.news || []),
+  [fetchResults]
+);
 
   return (
     <ResultsContext.Provider

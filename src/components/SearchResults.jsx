@@ -1,24 +1,31 @@
 import React,{useContext} from 'react'
 import { ResultsContext } from '../contexts/ResultsContextProvider';
+import {useOutletContext} from 'react-router-dom';
 
 const SearchResults = () => {
-  const { isLoading, results } = useContext(ResultsContext);
+  const { isLoading,searchTerm ,results } = useContext(ResultsContext);
+  const { hasSearched } = useOutletContext();
 
-  if (isLoading) return <h2>Loading Search Results...</h2>;
+  {
+    isLoading && results.length === 0 && <h2>Loading Images...</h2>;
+  }
 
   return (
-  <div className="results-list">
-        {isLoading && <h2>Loading Items...</h2>}
-        {Array.isArray(results) && results.length > 0
-          ? results.map((item, index) => (
-              <div key={index} className="result-item">
-                
-                <h3>{item.title}</h3> <p>{item.snippet}</p>
-                <h3>{item.description}</h3> <p>{item.snippet}</p>
-              </div>
-            ))
-          : !isLoading && <p>No results found</p>}
+   <div className="results-list">
+  {results.length > 0 ? (
+    results.map((item, index) => (
+      <div key={index} className="result-item">
+        <h3 className="result-title">{item.title}</h3>
+        {item.snippet && <p className="result-snippet">{item.snippet}</p>}
+        {item.description && (
+          <p className="result-description">{item.description}</p>
+        )}
       </div>
+    ))
+  ) : (
+    hasSearched && !isLoading && <p>No results found</p>
+  )}
+</div>
   )
 }
 

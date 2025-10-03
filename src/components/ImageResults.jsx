@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { ResultsContext } from "../contexts/ResultsContextProvider";
 const ImageResults = () => {
-  const { isLoading, searchTerm, getImageResults, setSearchTerm, results } =
-    useContext(ResultsContext);
-  if (isLoading) return <h2>Loading Images...</h2>;
+  const { isLoading, results } = useContext(ResultsContext);
+
+  {
+    isLoading && results.length === 0 && <h2>Loading Images...</h2>;
+  }
   return (
-    <div>
-      {Array.isArray(results) && results.length > 0 ? (
-        results.map((img, i) => (
-          <div key={i}>
-            <p>{img.title}</p>
-            <img src={img.imageUrl} alt={img.title || "image"} />
-            <p>{img.source}</p>
-          </div>
-        ))
-      ) : (
-        <p>No results found</p>
-      )}
-    </div>
+  <div className="image-results">
+  {results.length > 0 ? (
+    results.map((img, i) => (
+      <div key={i} className="image-card">
+        <img src={img.imageUrl} alt={img.title || "image"} className="image-thumb" />
+        <div className="image-info">
+          <h4 className="image-title">{img.title}</h4>
+          <p className="image-source">{img.source}</p>
+        </div>
+      </div>
+    ))
+  ) : (
+    !isLoading && <p>No results found</p>
+  )}
+</div>
   );
 };
 
