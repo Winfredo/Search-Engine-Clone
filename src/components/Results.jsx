@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { ResultsContext } from "../contexts/ResultsContextProvider";
-const Results = ({ dark }) => {
-  const { searchTerm,getVideoResults, getNewsResults,getSearchResults,getImageResults, setSearchTerm, results } =
+const Results = ({ dark, toggleTheme,darkTheme }) => {
+  const { searchTerm,getVideoResults, getNewsResults,getSearchResults,getImageResults, setSearchTerm } =
     useContext(ResultsContext);
 
     const [hasSearched, setHasSearched] = React.useState(false);
@@ -27,7 +27,8 @@ const Results = ({ dark }) => {
 
   return (
     <div className="results-container">
-      
+      <Navbar toggleTheme={toggleTheme} dark={darkTheme} />
+      <div className="search-container">
       <h1>GOOGLE</h1>
       <form className="form" onSubmit={handleSubmit}>
         <input
@@ -39,7 +40,13 @@ const Results = ({ dark }) => {
         />
         <button className="search-btn">Search</button>
       </form>
+      <div className="results-outlet">
       <Outlet context={{ hasSearched }} />
+
+      </div>
+
+      </div>
+       <Footer dark={darkTheme} />
     </div>
   );
 };
